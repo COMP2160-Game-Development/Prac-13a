@@ -10,9 +10,11 @@
 A reminder to please take a moment to complete the LETs and LEUs for this unit. This feedback is really important, and we need to reach a certain number of participants for us to see any of it. Please, if you have the time, fill them out.
 
 ## Today's Task
-Today you will be implementing basic path-finding AI to move a player around using the mouse. You can play a sample solution [here](https://uncanny-machines.itch.io/comp2160-week-13a-prac)
+Today you will be implementing basic path-finding AI to move a player around using the mouse. You can play a sample solution [here](https://uncanny-machines.itch.io/comp2160-week-13a-prac).
 
-## Step 1 – Setup (20 min)
+Note: This is one of two "bonus pracs" you can complete in Week 13. You can only recieve marks for one of them. If you have already completed 12 practials, you will not receive any marks for this prac.
+
+## Step 1 – Setup (10 min)
 
 ### Disable Lighting
 Unity contains some sophisticated lighting code which takes time to bake. By default Unity automatically re-bakes lighting whenever you change the 3D scene. This can make editing very slow, so it is a good idea to turn off automatic baking when you start a new 3D scene.
@@ -68,6 +70,8 @@ If a doorway is too small or a ramp or stair too steep, you may find your mesh i
 
 Experiment with the parameters and see how they affect the connectivity of the NavMesh. You can also try adding slopes or other additions to your terrain and re-baking to see how this impacts movement around your level. Everytime you add new parts to your geometry, press "Bake" to re-generate the NavMesh.
 
+Note that while non-Static objects can be baked into a NavMesh, it is best practice to make all objects that shouldn't move Static to avoid any bugs.
+
 ## Checkpoint! Save, commit and push your work now.
  
 ## Step 3 – Control with a NavMeshAgent (30 min)
@@ -96,6 +100,11 @@ Where “agent” is the private variable you stored the NavMeshAgent component 
 
 That’s all you need to do! The NavMeshAgent handles the rest: dynamically calculating the path and moving the agent based on the component's variables. Keep in mind you can now clean-up the code by removing non-necessary variables and methods.
 
+## Step 4 – Dynamic NavMesh Obstacles (10 min)
+Because it is baked, the NavMesh only includes static terrain. Test what happens with non-static objects:
+* Create a cube and add a Rigidbody to it. Place it in the world so that it will be in the agent’s path. How does the Player interact with the cube?
+* Add a NavMeshObstacle component to the cube. How does this change the interaction? What does the agent do if there is no easy way around the cube?
+
 ## Checkpoint! Save, commit and push your work now.
 
 ## To receive half marks for today, show your tutor:
@@ -103,17 +112,14 @@ That’s all you need to do! The NavMeshAgent handles the rest: dynamically calc
 * Your baked NavMesh terrain.
 * Your dynamic NavMesh obstacle.
 
-## Step 4 – Dynamic NavMesh Obstacles (10 min)
-The NavMesh only includes static terrain. Test what happens with non-static objects:
-* Create a cube and add a Rigidbody to it. Place it in the world so that it will be in the agent’s path. How does the Player interact with the cube?
-* Add a NavMeshObstacle component to the cube. How does this change the interaction? What does the agent do if there is no easy way around the cube?
-
 ## Step 5 – Add a Rigidbody (20 min)
 The NavMeshAgent moves the Player directly using its Transform. This can be a problem if we want the agent to interact physically with the scene. 
 * Add a Kinematic Rigidbody to the Player.
 * Remove the NavMeshObstacle component from the Cube. How does interaction between the player and the cube work now?
 
 Because the Rigidbody is kinematic, the interaction is one-way. The player affects the cube but not vice-versa.
+
+Note: We probably want the AI to try and avoid dynamic objects like boxes in the world, but to have meaningful physics reactions if they do collide. Re-add the NavMeshObstacle component to the Cube while maintaining a Kinematic Rigidbody on the player to achieve this.
 
 ## Step 6 – Add a Follower (20 min)
 In the Prefabs folder, you'll find a Prefab named Drone. Place it into the scene. Your challenge is to add a NavMeshAgent to them and write a script that makes them follow the player, like in the sample solution. How can you adjust the NavMeshAgent component on the Drone to make them stop before they hit the Player?
