@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.AI;
 
 public class MovePlayerSimple : MonoBehaviour
 {
@@ -12,12 +13,14 @@ public class MovePlayerSimple : MonoBehaviour
     [SerializeField] private float speed = 5;
     [SerializeField] private LayerMask layerMask;
     private Vector3 destination;
+    private NavMeshAgent agent;
 
     void Awake()
     {
         playerActions = new PlayerActions();
         mousePosition = playerActions.Movement.Position;
         mouseClick = playerActions.Movement.Click;
+        agent = GetComponent<NavMeshAgent>();
     }
 
     void OnEnable()
@@ -40,7 +43,7 @@ public class MovePlayerSimple : MonoBehaviour
 
     void Update()
     {
-        MoveToDestination();
+        // MoveToDestination();
     }
 
     private void GetDestination(InputAction.CallbackContext context)
@@ -52,6 +55,7 @@ public class MovePlayerSimple : MonoBehaviour
         {
             destination = hit.point;
         }
+        agent.SetDestination(destination);
     }        
 
     private void MoveToDestination()
